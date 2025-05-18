@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CLIENTE
+  ADMIN
+}
+
+enum CarroStatus {
+  DISPONIVEL
+  LOCADO
+  MANUTENCAO
+}
+
+enum AluguelStatus {
+  ATIVA
+  FINALIZADO
+  CANCELADO
+}
+
+enum FormaPagamento {
+  CARTAO
+  PIX
+}
+
+enum PagamentoStatus {
+  PENDENTE
+  PAGO
+  CANCELADO
+}
+
+model Usuario {
+  id             String     @id @default(uuid())
+  nome           String
+  email          String     @unique
+  senha          String     
+  cpf            String
+  dataNascimento DateTime
+  cnh            String?
+  telefone       String?
+  role           Role       @default(CLIENTE)
+  alugueis       Aluguel[]
+
+  @@map("usuario")
+}
+
+model Carro {
+  id        String        @id @default(uuid())
+  modelo    String
+  marca     String
+  placa     String        @unique
+  ano       Int
+  status    CarroStatus   @default(DISPONIVEL)
+  alugueis  Aluguel[]
+
+  @@map("carro")
+}
+
+model Aluguel {
+  id         String     @id @default(uuid())
+  usuarioId  String
+  carroId    String
+  dataInicio DateTime
+  dataFim    DateTime
+  valorTotal Decimal
+  usuario    Usuario    @relation(fields: [usuarioId], references: [id])
+  carro      Carro      @relation(fields: [carroId], references: [id])
+  pagamento    Pagamento?
+
+  @@map("aluguel")
+}
+
+model Pagamento {
+  id             String           @id @default(uuid())
+  aluguelId      String           @unique
+  valor          Decimal
+  formaPagamento FormaPagamento
+  status         PagamentoStatus @default(PENDENTE)
+  aluguel        Aluguel         @relation(fields: [aluguelId], references: [id])
+
+  @@map("pagamento")
+}
