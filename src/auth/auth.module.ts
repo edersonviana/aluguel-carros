@@ -5,11 +5,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtCosntants } from './constants';
 import { AuthGuard } from './auth.guard';
 import { RolesGuard } from './roles.guard';
-import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   imports: [
-    PrismaModule,
     JwtModule.register({
       global: true,
       secret: jwtCosntants.secret,

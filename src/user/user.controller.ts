@@ -1,9 +1,9 @@
-// src/user/user.controller.ts
 import {
     Controller,
     Post,
     Body,
     UseGuards,
+    Get,
   } from '@nestjs/common';
   import { UserService } from './user.service';
   import { Roles } from 'src/auth/roles.decorator';

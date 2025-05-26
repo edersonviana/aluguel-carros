@@ -1,4 +1,3 @@
-// src/user/user.service.ts
 import { Injectable, ConflictException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';

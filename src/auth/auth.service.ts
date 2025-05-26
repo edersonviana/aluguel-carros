@@ -7,11 +7,11 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
 
-    constructor(private prismaService: PrismaService, private jwtService: JwtService){}
+    constructor(private prisma: PrismaService, private jwtService: JwtService){}
 
     
     async signup(data: SignUpDTO){
-        const userAlreadyExists =  await this.prismaService.usuario.findUnique({
+        const userAlreadyExists =  await this.prisma.usuario.findUnique({
             where: {
                 email: data.email,
             },
@@ -20,7 +20,7 @@ export class AuthService {
             throw new UnauthorizedException("Usuário já existente!");
         }
         const hashedPassword = await bcrypt.hash(data.senha, 10);
-        const user = await this.prismaService.usuario.create({
+        const user = await this.prisma.usuario.create({
             data: {
               ...data,
               dataNascimento: new Date(data.dataNascimento),
@@ -35,7 +35,7 @@ export class AuthService {
     }
 
     async signin(data: SignInDTO){
-        const user =  await this.prismaService.usuario.findUnique({
+        const user =  await this.prisma.usuario.findUnique({
             where: {
                 email: data.email,
             },
