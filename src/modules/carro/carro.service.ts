@@ -31,7 +31,6 @@ export class CarroService {
     });
     }
 
-
     async remove(id: string): Promise<Carro> {
         return this.prisma.carro.delete({
             where: { id },
