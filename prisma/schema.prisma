@@ -63,26 +63,26 @@ model Carro {
 }
 
 model Aluguel {
-  id         String     @id @default(uuid())
-  usuarioId  String
-  carroId    String
-  dataInicio DateTime
-  dataFim    DateTime
-  valorTotal Decimal
-  usuario    Usuario    @relation(fields: [usuarioId], references: [id])
-  carro      Carro      @relation(fields: [carroId], references: [id])
-  pagamento    Pagamento?
+  id          String    @id @default(uuid())
+  usuarioId   String
+  carroId     String
+  pagamentoId String    @unique
+  dataInicio  DateTime
+  dataFim     DateTime
+  valorTotal  Decimal
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+  carro       Carro     @relation(fields: [carroId], references: [id])
+  pagamento   Pagamento @relation(fields: [pagamentoId], references: [id])
 
   @@map("aluguel")
 }
 
 model Pagamento {
-  id             String           @id @default(uuid())
-  aluguelId      String           @unique
+  id             String          @id @default(uuid())
   valor          Decimal
   formaPagamento FormaPagamento
   status         PagamentoStatus @default(PENDENTE)
-  aluguel        Aluguel         @relation(fields: [aluguelId], references: [id])
+  aluguel        Aluguel?
 
   @@map("pagamento")
 }

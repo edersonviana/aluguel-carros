@@ -8,12 +8,6 @@ import { Pagamento } from '@prisma/client';
 export class PagamentoService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreatePagamentoDto): Promise<Pagamento> {
-    return this.prisma.pagamento.create({
-      data: dto,
-    });
-  }
-
   async findAll(): Promise<Pagamento[]> {
     return this.prisma.pagamento.findMany({
       include: { aluguel: true },
@@ -34,10 +28,5 @@ export class PagamentoService {
     });
   }
 
-  async remove(id: string): Promise<Pagamento> {
-    return this.prisma.pagamento.delete({
-      where: { id },
-    });
-  }
 }
 

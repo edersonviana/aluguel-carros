@@ -1,25 +1,27 @@
 import { IsDateString, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
 export class UpdateAluguelDto {
+  @IsUUID()
+  @IsOptional()
+  usuarioId: string;
 
-      @IsUUID()
-      @IsOptional()
-      usuarioId: string;
+  @IsUUID()
+  @IsOptional()
+  carroId: string;
 
-      @IsUUID()
-      @IsOptional()
-      carroId: string;
+  @IsUUID()
+  @IsOptional()
+  pagamentoId: string;
 
-      @IsDateString()
-      @IsOptional()
-      dataInicio: string;
+  @IsDateString()
+  @IsOptional()
+  dataInicio: string;
 
-      @IsDateString()
-      @IsOptional()
-      dataFim: string;
+  @IsDateString()
+  @IsOptional()
+  dataFim: string;
 
-      @IsNumber()
-      @IsOptional()
-      valorTotal: number;
-
+  @IsNumber()
+  @IsOptional()
+  valorTotal: number;
 }

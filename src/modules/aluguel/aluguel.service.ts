@@ -6,35 +6,58 @@ import { UpdateAluguelDto } from './dtos/update-aluguel.dto';
 
 @Injectable()
 export class AluguelService {
-  constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
-  create(data: CreateAluguelDto): Promise<Aluguel> {
-    return this.prisma.aluguel.create({ data });
-  }
+    async create(createAluguelDto: CreateAluguelDto) {
 
-  findAll(): Promise<Aluguel[]> {
-    return this.prisma.aluguel.findMany({
-      include: { carro: true, usuario: true, pagamento: true },
-    });
-  }
+        const pagamento = await this.prisma.pagamento.create({
+            data: {
+                valor: createAluguelDto.valorTotal,
+                formaPagamento: createAluguelDto.formaPagamento,
+            },
+        });
 
-  findOne(id: string): Promise<Aluguel | null> {
-    return this.prisma.aluguel.findUnique({
-      where: { id },
-      include: { carro: true, usuario: true, pagamento: true },
-    });
-  }
+        const aluguel = await this.prisma.aluguel.create({
+            data: {
+                usuarioId: createAluguelDto.usuarioId,
+                carroId: createAluguelDto.carroId,
+                dataInicio: createAluguelDto.dataInicio,
+                dataFim: createAluguelDto.dataFim,
+                valorTotal: createAluguelDto.valorTotal,
+                pagamentoId: pagamento.id,
+            },
+            include: {
+                pagamento: true,
+            },
+        });
 
-  update(id: string, dto: UpdateAluguelDto): Promise<Aluguel> {
-    return this.prisma.aluguel.update({
-      where: { id },
-      data: dto,
-    });
-  }
+        return aluguel;
+    }
 
-  remove(id: string): Promise<Aluguel> {
-    return this.prisma.aluguel.delete({
-      where: { id },
-    });
-  }
+
+    async findAll(): Promise<Aluguel[]> {
+        return this.prisma.aluguel.findMany({
+            include: { carro: true, usuario: true, pagamento: true },
+        });
+    }
+
+    async findOne(id: string): Promise<Aluguel | null> {
+        return this.prisma.aluguel.findUnique({
+            where: { id },
+            include: { carro: true, usuario: true, pagamento: true },
+        });
+    }
+
+    async update(id: string, dto: UpdateAluguelDto): Promise<Aluguel> {
+        return this.prisma.aluguel.update({
+            where: { id },
+            data: dto,
+        });
+    }
+
+    async remove(id: string): Promise<Aluguel> {
+        return this.prisma.aluguel.delete({
+            where: { id },
+        });
+    }
 }

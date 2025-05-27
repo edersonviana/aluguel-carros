@@ -2,9 +2,6 @@ import { IsEnum, IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
 import { FormaPagamento, PagamentoStatus } from '@prisma/client';
 
 export class CreatePagamentoDto {
-  @IsUUID()
-  @IsNotEmpty()
-  aluguelId: string;
 
   @IsNumber()
   @IsNotEmpty()
