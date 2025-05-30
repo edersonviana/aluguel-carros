@@ -19,6 +19,12 @@ export class UpdateCarroDto {
   ano?: number;
 
   @IsOptional()
+  imagem?: string;
+
+  @IsOptional()
+  precoPorDia?: string;
+
+  @IsOptional()
   @IsEnum(CarroStatus)
   status?: CarroStatus;
 }

@@ -36,31 +36,34 @@ enum PagamentoStatus {
 }
 
 model Usuario {
-  id             String     @id @default(uuid())
+  id             String    @id @default(uuid())
   nome           String
-  email          String     @unique
-  senha          String     
+  email          String    @unique
+  senha          String
   cpf            String
   dataNascimento DateTime
   cnh            String?
   telefone       String?
-  role           Role       @default(CLIENTE)
+  role           Role      @default(CLIENTE)
   alugueis       Aluguel[]
 
   @@map("usuario")
 }
 
 model Carro {
-  id        String        @id @default(uuid())
-  modelo    String
-  marca     String
-  placa     String        @unique
-  ano       Int
-  status    CarroStatus   @default(DISPONIVEL)
-  alugueis  Aluguel[]
+  id            String       @id @default(uuid())
+  modelo        String
+  marca         String
+  placa         String       @unique
+  ano           Int
+  imagem        String       @default("")   
+  precoPorDia   Decimal      @default(0.0)  
+  status        CarroStatus  @default(DISPONIVEL)
+  alugueis      Aluguel[]
 
   @@map("carro")
 }
+
 
 model Aluguel {
   id          String    @id @default(uuid())

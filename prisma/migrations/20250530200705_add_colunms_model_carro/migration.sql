@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "carro" ADD COLUMN     "imagem" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "precoPorDia" DECIMAL(65,30) NOT NULL DEFAULT 0.0;

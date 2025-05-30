@@ -1,5 +1,5 @@
 import { CarroStatus } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsInt, IsNumberString } from 'class-validator';
 
 export class CreateCarroDto {
   @IsString()
@@ -17,6 +17,13 @@ export class CreateCarroDto {
   @IsInt()
   @IsNotEmpty()
   ano: number;
+
+  @IsNotEmpty()
+  imagem: string;
+
+  @IsNumberString()
+  @IsNotEmpty()
+  precoPorDia: string;
 
   @IsEnum(CarroStatus)
   status?: CarroStatus = CarroStatus.DISPONIVEL;
