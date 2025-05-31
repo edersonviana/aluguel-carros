@@ -55,6 +55,10 @@ export class AuthService {
         });
         return {
             accessToken,
+            user: {
+                ...user,
+                senha: undefined, // Exclude password from the response
+            },
         };
     }
 

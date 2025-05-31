@@ -18,10 +18,6 @@ export class CreateAluguelDto {
   @IsNotEmpty()
   dataFim: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  valorTotal: number;
-
   @IsEnum(FormaPagamento)
   @IsNotEmpty()
   formaPagamento: FormaPagamento;
