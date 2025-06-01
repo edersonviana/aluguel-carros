@@ -56,6 +56,15 @@ export class AluguelService {
         return aluguel;
     }
 
+    async findByUserId(userId: string) {
+        return this.prisma.aluguel.findMany({
+            where: { usuarioId: userId }, 
+            orderBy: { dataInicio: 'desc' },
+            include: { carro: true },
+        });
+    }
+
+
 
     async findAll(): Promise<Aluguel[]> {
         return this.prisma.aluguel.findMany({

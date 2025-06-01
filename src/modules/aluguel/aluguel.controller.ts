@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } from '@nestjs/common';
 import { AluguelService } from './aluguel.service';
 import { Prisma } from '@prisma/client';
 import { CreateAluguelDto } from './dtos/create-aluguel.dto';
@@ -15,6 +15,12 @@ export class AluguelController {
     @Post()
     create(@Body() createAluguelDto: CreateAluguelDto) {
         return this.aluguelService.create(createAluguelDto);
+    }
+
+    @Get('user')
+    async findMyRentals(@Request() req) {
+        const userId = req.user.id;
+        return this.aluguelService.findByUserId(userId);
     }
 
     @Get()
