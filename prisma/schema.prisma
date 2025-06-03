@@ -19,6 +19,7 @@ enum CarroStatus {
 }
 
 enum AluguelStatus {
+  PENDENTE
   ATIVA
   FINALIZADO
   CANCELADO
@@ -73,6 +74,7 @@ model Aluguel {
   dataInicio  DateTime
   dataFim     DateTime
   valorTotal  Decimal
+  status      AluguelStatus @default(PENDENTE)
   usuario     Usuario   @relation(fields: [usuarioId], references: [id])
   carro       Carro     @relation(fields: [carroId], references: [id])
   pagamento   Pagamento @relation(fields: [pagamentoId], references: [id])
