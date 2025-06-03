@@ -9,10 +9,6 @@ export class UpdateAluguelDto {
   @IsOptional()
   carroId: string;
 
-  @IsUUID()
-  @IsOptional()
-  pagamentoId: string;
-
   @IsDateString()
   @IsOptional()
   dataInicio: string;
@@ -21,7 +17,4 @@ export class UpdateAluguelDto {
   @IsOptional()
   dataFim: string;
 
-  @IsNumber()
-  @IsOptional()
-  valorTotal: number;
 }

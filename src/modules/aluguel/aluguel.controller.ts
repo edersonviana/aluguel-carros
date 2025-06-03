@@ -34,7 +34,6 @@ export class AluguelController {
     }
 
     @Put(':id')
-    @Roles("ADMIN")
     update(@Param('id') id: string, @Body() updateAluguelDto: UpdateAluguelDto) {
         return this.aluguelService.update(id, updateAluguelDto);
     }
