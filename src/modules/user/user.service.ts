@@ -1,16 +1,17 @@
-import { Injectable, ConflictException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable, ConflictException, Inject } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateAdminDTO } from './dtos/create-admin.dto';
+import { IUserRepository } from './repositories/user.repository.interface';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    @Inject('IUserRepository')
+    private readonly userRepository: IUserRepository,
+  ) {}
 
   async createAdmin(dto: CreateAdminDTO) {
-    const userAlreadyExists = await this.prisma.usuario.findUnique({
-      where: { email: dto.email },
-    });
+    const userAlreadyExists = await this.userRepository.findByEmail(dto.email);
 
     if (userAlreadyExists) {
       throw new ConflictException('Email já está em uso.');
@@ -18,13 +19,11 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(dto.senha, 10);
 
-    const admin = await this.prisma.usuario.create({
-      data: {
-        ...dto,
-        dataNascimento: new Date(dto.dataNascimento),
-        senha: hashedPassword,
-        role: 'ADMIN',
-      },
+    const admin = await this.userRepository.createAdmin({
+      ...dto,
+      dataNascimento: new Date(dto.dataNascimento),
+      senha: hashedPassword,
+      role: 'ADMIN',
     });
 
     return {
