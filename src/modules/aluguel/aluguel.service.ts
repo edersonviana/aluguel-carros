@@ -57,19 +57,39 @@ export class AluguelService {
     }
 
     async findByUserId(userId: string) {
-        return this.prisma.aluguel.findMany({
-            where: { usuarioId: userId }, 
+        const rentals = await this.prisma.aluguel.findMany({
+            where: { usuarioId: userId },
             orderBy: { dataInicio: 'desc' },
             include: { carro: true },
         });
+
+        return rentals.map(rental => ({
+            ...rental,
+            valorTotal: Number(rental.valorTotal), // Conversão direta
+            carro: {
+                ...rental.carro,
+                precoPorDia: Number(rental.carro.precoPorDia)
+            }
+        }));
     }
 
-
-
-    async findAll(): Promise<Aluguel[]> {
-        return this.prisma.aluguel.findMany({
+    async findAll(): Promise<any[]> {
+        const rentals = await this.prisma.aluguel.findMany({
             include: { carro: true, usuario: true, pagamento: true },
         });
+
+        return rentals.map(rental => ({
+            ...rental,
+            valorTotal: Number(rental.valorTotal),
+            carro: {
+                ...rental.carro,
+                precoPorDia: Number(rental.carro.precoPorDia)
+            },
+            pagamento: {
+                ...rental.pagamento,
+                valor: Number(rental.pagamento.valor)
+            }
+        }));
     }
 
     async findOne(id: string): Promise<Aluguel | null> {
