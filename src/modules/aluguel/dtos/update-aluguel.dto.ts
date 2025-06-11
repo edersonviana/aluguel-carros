@@ -1,4 +1,5 @@
-import { IsDateString, IsNumber, IsOptional, IsUUID } from 'class-validator';
+import { IsDateString, IsNumber, IsOptional, IsUUID, IsEnum  } from 'class-validator';
+import { AluguelStatus } from '@prisma/client';
 
 export class UpdateAluguelDto {
   @IsUUID()
@@ -17,4 +18,6 @@ export class UpdateAluguelDto {
   @IsOptional()
   dataFim: string;
 
+  @IsEnum(AluguelStatus)
+  status: AluguelStatus;
 }

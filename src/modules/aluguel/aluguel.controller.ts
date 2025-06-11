@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UseGuards, Request, Patch } from '@nestjs/common';
 import { AluguelService } from './aluguel.service';
 import { Prisma } from '@prisma/client';
 import { CreateAluguelDto } from './dtos/create-aluguel.dto';
@@ -36,6 +36,14 @@ export class AluguelController {
     @Put(':id')
     update(@Param('id') id: string, @Body() updateAluguelDto: UpdateAluguelDto) {
         return this.aluguelService.update(id, updateAluguelDto);
+    }
+
+    @Patch(':id/status')
+    updateStatus(
+        @Param('id') id: string,
+        @Body() dto: UpdateAluguelDto
+    ) {
+        return this.aluguelService.updateStatus(id, dto);
     }
 
     // @Delete(':id')

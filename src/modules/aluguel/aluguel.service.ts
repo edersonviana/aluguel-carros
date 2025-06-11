@@ -111,4 +111,11 @@ export class AluguelService {
             where: { id },
         });
     }
+
+    async updateStatus(id: string, dto: UpdateAluguelDto): Promise<Aluguel> {
+    return this.prisma.aluguel.update({
+      where: { id },
+      data: { status: dto.status },
+    });
+  }
 }
