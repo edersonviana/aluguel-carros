@@ -1,32 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import { CreatePagamentoDto } from './dtos/create-pagamento.dto';
+// pagamento/pagamento.service.ts
+import { Injectable, Inject } from '@nestjs/common';
+import { IPagamentoRepository } from './repositories/pagamento.repository.interface';
 import { UpdatePagamentoDto } from './dtos/update-pagamento.dto';
 import { Pagamento } from '@prisma/client';
 
 @Injectable()
 export class PagamentoService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('IPagamentoRepository')
+    private readonly pagamentoRepository: IPagamentoRepository,
+  ) {}
 
   async findAll(): Promise<Pagamento[]> {
-    return this.prisma.pagamento.findMany({
-      include: { aluguel: true },
-    });
+    return this.pagamentoRepository.findAll();
   }
 
   async findOne(id: string): Promise<Pagamento | null> {
-    return this.prisma.pagamento.findUnique({
-      where: { id },
-      include: { aluguel: true },
-    });
+    return this.pagamentoRepository.findOne(id);
   }
 
   async update(id: string, dto: UpdatePagamentoDto): Promise<Pagamento> {
-    return this.prisma.pagamento.update({
-      where: { id },
-      data: dto,
-    });
+    return this.pagamentoRepository.update(id, dto);
   }
-
 }
-
