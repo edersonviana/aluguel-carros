@@ -1,47 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { Carro, CarroStatus, Prisma } from '@prisma/client';
+// src/carro/carro.service.ts
+import { Injectable, Inject } from '@nestjs/common';
 import { CreateCarroDto } from './dtos/create-carro.dto';
 import { UpdateCarroDto } from './dtos/update-carro.dto';
+import { Carro } from '@prisma/client';
+import { ICarroRepository } from './repositories/carro.repository.interface';
 
 @Injectable()
 export class CarroService {
-    constructor(private prisma: PrismaService) { }
+  constructor(
+    @Inject('ICarroRepository')
+    private readonly carroRepository: ICarroRepository,
+  ) {}
 
-    async create(data: CreateCarroDto) {
-        return await this.prisma.carro.create({
-            data: {
-                modelo: data.modelo,
-                marca: data.marca,
-                placa: data.placa,
-                ano: data.ano,
-                imagem: data.imagem,
-                precoPorDia: new Prisma.Decimal(data.precoPorDia), 
-                status: data.status ?? CarroStatus.DISPONIVEL,
-            },
-        });
-    }
+  create(data: CreateCarroDto): Promise<Carro> {
+    return this.carroRepository.create(data);
+  }
 
-    async findAll(): Promise<Carro[]> {
-        return this.prisma.carro.findMany();
-    }
+  findAll(): Promise<Carro[]> {
+    return this.carroRepository.findAll();
+  }
 
-    async findOne(id: string): Promise<Carro | null> {
-        return this.prisma.carro.findUnique({
-            where: { id },
-        });
-    }
+  findOne(id: string): Promise<Carro | null> {
+    return this.carroRepository.findOne(id);
+  }
 
-    async update(id: string, dto: UpdateCarroDto): Promise<Carro> {
-        return this.prisma.carro.update({
-            where: { id },
-            data: dto,
-        });
-    }
+  update(id: string, data: UpdateCarroDto): Promise<Carro> {
+    return this.carroRepository.update(id, data);
+  }
 
-    async remove(id: string): Promise<Carro> {
-        return this.prisma.carro.delete({
-            where: { id },
-        });
-    }
+  remove(id: string): Promise<Carro> {
+    return this.carroRepository.remove(id);
+  }
 }
