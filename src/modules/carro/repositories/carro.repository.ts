@@ -7,7 +7,7 @@ import { UpdateCarroDto } from '../dtos/update-carro.dto';
 
 @Injectable()
 export class CarroRepository implements ICarroRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreateCarroDto): Promise<Carro> {
     return this.prisma.carro.create({
@@ -40,5 +40,13 @@ export class CarroRepository implements ICarroRepository {
 
   remove(id: string): Promise<Carro> {
     return this.prisma.carro.delete({ where: { id } });
+  }
+
+  async findAvailable(): Promise<Carro[]> {
+    return this.prisma.carro.findMany({
+      where: {
+        status: CarroStatus.DISPONIVEL
+      }
+    });
   }
 }

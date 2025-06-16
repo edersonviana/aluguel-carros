@@ -53,6 +53,11 @@ export class AluguelService {
             },
         });
 
+        await this.prisma.carro.update({
+            where: { id: carro.id },
+            data: { status: 'LOCADO' },
+        });
+
         return aluguel;
     }
 

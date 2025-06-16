@@ -28,15 +28,20 @@ export class CarroController {
   }
 
   @Put(':id')
-  @Roles('ADMIN') 
+  @Roles('ADMIN')
   update(@Param('id') id: string, @Body() updateCarroDto: Partial<UpdateCarroDto>) {
     return this.carroService.update(id, updateCarroDto);
   }
 
   @Delete(':id')
-  @Roles('ADMIN') 
+  @Roles('ADMIN')
   remove(@Param('id') id: string) {
     return this.carroService.remove(id);
+  }
+
+  @Get('/available')
+  findAvailable() {
+    return this.carroService.findAvailable();
   }
 }
 

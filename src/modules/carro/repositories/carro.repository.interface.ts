@@ -8,4 +8,5 @@ export abstract class ICarroRepository {
   abstract findOne(id: string): Promise<Carro | null>;
   abstract update(id: string, data: UpdateCarroDto): Promise<Carro>;
   abstract remove(id: string): Promise<Carro>;
+  abstract findAvailable(): Promise<Carro[]>;
 }

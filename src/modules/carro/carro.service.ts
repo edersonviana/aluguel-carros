@@ -32,4 +32,8 @@ export class CarroService {
   remove(id: string): Promise<Carro> {
     return this.carroRepository.remove(id);
   }
+
+  async findAvailable(): Promise<Carro[]> {
+    return this.carroRepository.findAvailable();
+  }
 }
