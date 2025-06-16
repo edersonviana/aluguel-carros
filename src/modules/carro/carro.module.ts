@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { CarroService } from './carro.service';
 import { CarroController } from './carro.controller';
 import { CarroRepository } from './repositories/carro.repository';
+import { ICarroRepository } from './repositories/carro.repository.interface';
 
 @Module({
   controllers: [CarroController],
   providers: [
     CarroService,
-    CarroRepository,
     {
-      provide: 'ICarroRepository',
+      provide: ICarroRepository,
       useClass: CarroRepository,
     },
   ],

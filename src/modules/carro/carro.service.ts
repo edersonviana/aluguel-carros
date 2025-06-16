@@ -8,9 +8,10 @@ import { ICarroRepository } from './repositories/carro.repository.interface';
 @Injectable()
 export class CarroService {
   constructor(
-    @Inject('ICarroRepository')
+    @Inject(ICarroRepository)
     private readonly carroRepository: ICarroRepository,
-  ) {}
+  ) { }
+
 
   create(data: CreateCarroDto): Promise<Carro> {
     return this.carroRepository.create(data);
