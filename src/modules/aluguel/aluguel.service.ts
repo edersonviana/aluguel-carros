@@ -118,9 +118,17 @@ export class AluguelService {
     }
 
     async updateStatus(id: string, dto: UpdateAluguelDto): Promise<Aluguel> {
-    return this.prisma.aluguel.update({
-      where: { id },
-      data: { status: dto.status },
-    });
-  }
+
+        if (dto.status == 'CANCELADO') {
+            await this.prisma.carro.update({
+                where: { id: dto.carroId },
+                data: { status: 'DISPONIVEL' },
+            });
+        }
+
+        return this.prisma.aluguel.update({
+            where: { id },
+            data: { status: dto.status },
+        });
+    }
 }
