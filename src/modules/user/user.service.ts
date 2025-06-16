@@ -6,7 +6,7 @@ import { IUserRepository } from './repositories/user.repository.interface';
 @Injectable()
 export class UserService {
   constructor(
-    @Inject('IUserRepository')
+    @Inject(IUserRepository)
     private readonly userRepository: IUserRepository,
   ) {}
 
