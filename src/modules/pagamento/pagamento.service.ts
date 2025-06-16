@@ -7,7 +7,7 @@ import { Pagamento } from '@prisma/client';
 @Injectable()
 export class PagamentoService {
   constructor(
-    @Inject('IPagamentoRepository')
+    @Inject(IPagamentoRepository)
     private readonly pagamentoRepository: IPagamentoRepository,
   ) {}
 
